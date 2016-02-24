@@ -1,0 +1,121 @@
+2. Escriba los 4 principios de diseño de hardware aprendidos en clase.
+
+	2.1 La simplicidad favorece la regularidad 
+	2.2 Mas pequeño, mas rápido
+	2.3 Hacer el caso común primero, más rápido
+	2.4 Buenos diseños demandan grandes compromisos
+
+3. Convertir a instrucciones de bajo nivel.
+
+ 	int X= 0;
+ 	int Y= 8;
+ 	int Z= 1;
+ 
+	 Y= X+3;
+	 Z= Z+3;
+	 X= ( X-Z ) + ( 3-Y );
+
+	 X= %L1
+	 Y= %L2
+	 Z= %L3
+	 %L4= aux 
+	 %L5= aux 
+
+	add %G0, 0,   %L1    --> X= 0
+	add %G0, 8,   %L2    --> Y= 8
+	add %G0, 1,   %L3    --> Z= 1
+	add %L1, 3,   %L2    --> X+3 = Y
+	add %L3, 3,   %L3    --> Z+3 = Z
+	sub %L1, %L3, %L4    --> X-2 = %L4   
+	add %L2, 3,   %L3    --> 3+Y = %L5
+	add %L4, %L5, %L1    --> ( %L4 ) + ( %L5 ) = X 
+
+
+4.Usar el ld, y st.
+
+
+ 	4.1	a[4] = a[2] + x;
+		
+		a = %L1
+		x = %L2
+		%L0= cont
+		%L3= aux
+	
+		ld     %L1,   8,  %L0    --> a[2] = %L0
+		add    %L0, %L2,  %L3    --> a[2] + x = %L3
+		st     %L3, %L1,   16    --> a[4] = %L3
+
+	
+	4.2	y[40] + 13;
+		
+		y = %L1
+		%L0= aux
+
+		Ld [%L1+40], %L0    --> y[40] = %L0
+		add %L0, 13, %L1    --> %L0 + 13 = y
+
+
+5. Convertir a lenguaje de Maquina
+
+
+	
+	5.1	int main()
+			{
+			Int i= 3, p= 2;
+			Return i+3;
+			}
+
+
+		Main   |  Instrucción
+		       |
+		0x0000 |  add %G0,  3,   %L1	-->	10 10001 000000 00000 1 0000000000011	A2002003
+		0x0004 |  add %G0,  2,   %L2	-->	10 10010 000000 00000 1 0000000000010	A4002002
+		0x0008 |  add %L1, %L2,  %O1	-->	10 10001 000000 10001 0 00000000 10010	92044012
+
+	
+
+
+	5.2	int main()
+			{
+			Int p= 3, x= 1, z= 4, w= 0;
+			w= (p+40) + (x-z);
+			return 0;
+			}
+
+		Main   |  Instrucción
+		       |
+		0x0000 |  add %Go, 3,   %L0	 -->	10 10000 000000 00000 1 0000000000011	A0002003
+		0x0004 |  add %Go, 1,   %L1	 -->	10 10001 000000 00000 1 0000000000001	A2002001
+		0x0008 |  add %G0, 4,   %L2	 -->	10 10010 000000 00000 1 0000000000100	A4002004
+		0x000C |  add %G0, 0,   %L3	 -->	10 10011 000000 00000 1 0000000000000	A6002000
+		0x0010 |  add %L0, 40,  %L4	 -->	10 10100 000000 10000 1 0000000101000	A8042028
+		0x0014 |  sub %L1, %l2, %L5	 -->	10 10101 000100 10001 0 00000000 10010  AA244012
+		0X0018 |  add %L4, %L5, %L3	 -->	10 10011 000000 10100 0 00000000 10101  A6050015
+		0x001C |  add %Go, 0,   %O0	 -->	10 01000 000000 00000 1 0000000000000   90002000
+
+
+
+6. Inicializar las siguientes variables usando OR
+
+	6.1
+	
+	 n= -12
+		OR  %G0,  -9,   %L1
+	
+	6.2
+
+	 a= -11
+		OR  %G0,  -11,  %L2
+
+	6.3
+
+	 b= -14
+		OR  %G0,  -14,  %L3
+
+		
+		
+
+
+ 
+
+
