@@ -1,0 +1,56 @@
+2. Escriba los 4 principios de diseño de hardware aprendidos en clase.
+
+	2.1 La simplicidad favorece la regularidad 
+	2.2 Mas pequeño, mas rápido
+	2.3 Hacer el caso común primero, más rápido
+	2.4 Buenos diseños demandan grandes compromisos
+
+3. Convertir a instrucciones de bajo nivel.
+
+ int X= 0;
+ int Y= 8;
+ int Z= 1;
+ 
+	Y= X+3;
+	Z= Z+3;
+	X= ( X-Z ) + ( 3-Y );
+
+ X= %L1
+ Y= %L2
+ Z= %L3
+
+ %L4= aux *
+ %L5= aux **
+
+	add %G0, 0,   %L1    --> X= 0
+	add %G0, 8,   %L2    --> Y= 8
+	add %G0, 1,   %L3    --> Z= 1
+	add %L1, 3,   %L2    --> X+3 = Y
+	add %L3, 3,   %L3    --> Z+3 = Z
+**	sub %L1, %L3, %L4    --> X-2 = %L4   **
+	add %L2, 3,   %L3    --> 3+Y = %L5
+	add %L4, %L5, %L1    --> ( %L4 ) + ( %L5 ) = X *
+
+
+4.Usar el ld, y st.
+
+ 	4.1	a[4] = a[2] + x;
+		
+		a = %L1
+		x = %L2
+		%L0= cont
+		%L3= aux
+	
+	*	Ld    [ %L1, +2], %L0    --> a[2] = %L0
+		add   %L0, %L2, %L3    --> a[2] + x = %L3
+	*	st    %L3, [ %L1 +4]   --> a[4] = %L3
+
+	
+	4.2	y[40] + 13;
+		
+		
+
+
+ 
+
+
